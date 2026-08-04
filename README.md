@@ -37,10 +37,26 @@ _assets          图片与附件
 
 ## 当前阶段
 
-当前处于 **v3 架构试点阶段**，先建设：
+当前处于 **v3 架构与试点阶段**：
 
-- 数学：线性代数、仿射与射影几何；
-- 图形学：坐标、相机、投影、实时光栅化管线；
-- 来源：《Foundations of 3D Computer Graphics》《Real-Time Rendering 4th》。
+- 已建立顶层结构、治理规则、模板和 Manifest；
+- 已接入《Foundations of 3D Computer Graphics》和《Real-Time Rendering 4th》；
+- 正在试点数学基础、坐标空间、相机投影与实时光栅化管线；
+- 试点稳定后再迁移和扩展其他知识领域。
 
-详细设计见：[[80 系统/01 知识库设计说明]]。
+## 使用入口
+
+- Obsidian 首页：[[80 系统/00 知识库主页]]
+- 完整设计：[[80 系统/01 知识库设计说明]]
+- 知识总览：[[30 知识/00 知识总览]]
+- 贡献规范：见 `CONTRIBUTING.md`
+
+## 本地校验
+
+仓库校验脚本只依赖 Python 标准库：
+
+```bash
+python scripts/validate_kb.py
+```
+
+它会检查 Frontmatter、重复 ID、内部链接和部分结构规则。Pull Request 中也会自动运行同一套校验。
