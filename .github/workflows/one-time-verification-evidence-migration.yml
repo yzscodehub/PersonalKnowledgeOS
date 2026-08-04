@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - design/knowledge-base-v3
+  pull_request:
+    types:
+      - ready_for_review
 
 permissions:
   contents: write
+  pull-requests: read
 
 jobs:
   migrate:
@@ -36,9 +40,7 @@ jobs:
 
       - name: Commit migration
         run: |
-          if git diff --quiet && git status --porcelain | grep -q '^??' ; then
-            :
-          elif git diff --quiet && [ -z "$(git status --porcelain)" ]; then
+          if [ -z "$(git status --porcelain)" ]; then
             echo "No migration changes required."
             exit 0
           fi
