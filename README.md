@@ -37,12 +37,12 @@ _assets          图片与附件
 
 ## 当前阶段
 
-当前处于 **v3 架构与试点阶段**：
+当前处于 **v3 架构试点阶段**，已完成第一批数学、坐标、相机、投影和深度主干：
 
-- 已建立顶层结构、治理规则、模板和 Manifest；
-- 已接入《Foundations of 3D Computer Graphics》和《Real-Time Rendering 4th》；
-- 正在试点数学基础、坐标空间、相机投影与实时光栅化管线；
-- 试点稳定后再迁移和扩展其他知识领域。
+- 数学：点与向量、向量空间、基与坐标、矩阵、仿射空间、标架、齐次坐标；
+- 图形学：坐标空间、Object→World、World→View、正交投影、透视投影、Clip/NDC、深度与 Reversed-Z；
+- 实验：矩阵约定、投影端点映射、浮点深度精度；
+- 来源：《Foundations of 3D Computer Graphics》《Real-Time Rendering 4th》。
 
 ## 使用入口
 
@@ -51,12 +51,13 @@ _assets          图片与附件
 - 知识总览：[[30 知识/00 知识总览]]
 - 贡献规范：见 `CONTRIBUTING.md`
 
-## 本地校验
-
-仓库校验脚本只依赖 Python 标准库：
+## 本地校验与实验
 
 ```bash
 python scripts/validate_kb.py
+python experiments/math_graphics/coordinate_conventions.py
+python experiments/math_graphics/projection_mapping.py
+python experiments/math_graphics/depth_precision.py
 ```
 
-它会检查 Frontmatter、重复 ID、内部链接和部分结构规则。Pull Request 中也会自动运行同一套校验。
+Pull Request 中会自动运行知识库结构校验和上述实验。
