@@ -4,7 +4,8 @@ status: superseded
 decision_date: 2026-08-04
 created: 2026-08-04
 updated: 2026-08-04
-superseded_by: "[[80 系统/60 ADR/ADR-0014-完整设计后合并Bootstrap分支]]"
+superseded_by:
+  - "[[80 系统/60 ADR/ADR-0014-完整设计后合并Bootstrap分支]]"
 ---
 
 # ADR-0013：Bootstrap PR 在 Phase 1 复盘后合并
