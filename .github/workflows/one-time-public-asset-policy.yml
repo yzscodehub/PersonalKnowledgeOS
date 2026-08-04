@@ -36,6 +36,9 @@ jobs:
           python experiments/math_graphics/projection_mapping.py
           python experiments/math_graphics/depth_precision.py
 
+      - name: Exclude protected workflow from bot commit
+        run: git checkout -- .github/workflows/validate-knowledge-base.yml
+
       - name: Commit migration
         run: |
           if [ -z "$(git status --porcelain)" ]; then
