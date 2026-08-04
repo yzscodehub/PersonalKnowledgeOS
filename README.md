@@ -45,15 +45,26 @@ _assets          图片与附件
 - 只提交可公开的技术知识、实验、来源笔记、项目和输出；
 - 不提交健康、财务、身份、私人日记、雇佣机密、凭据或无权公开的附件；
 - 未来需要长期保存私人内容时，在写入前将仓库改为私有；
-- 详细规则见 [[80 系统/10 治理规则/公开仓库与隐私规则]]。
+- 详细规则见 [[80 系统/10 治理规则/公开仓库与隐私规则]]；
 - 附件和来源文件还需遵守 [[80 系统/10 治理规则/附件、版权与大文件规则]]。
 
 ## 当前阶段
 
-Gate A 和 Phase 1 试点复盘已经通过。当前 Draft PR #1 等待最终人工检查；合并前不扩展光栅化、PBR、API 和其他领域。
+Gate A 和 Phase 1 试点复盘已经通过，但 **PR #1 暂不合并**。当前继续在 `design/knowledge-base-v3` 分支完成整套详细设计，完成后再统一评审和合并。
+
+当前允许继续建设：
+
+- 顶层信息角色和端到端工作流；
+- 全知识领域蓝图；
+- Obsidian 首页、仪表盘、模板和查询体验；
+- 自动化、Git、备份、发布、迁移和长期治理设计；
+- 为验证设计所需的最小样例和试点修复。
+
+当前不进入光栅化、PBR、API、UE5 等大规模正文建设，也不进行旧库全量迁移。
 
 - 总体设计：[[80 系统/01 知识库设计说明]]
 - 实施路线：[[80 系统/02 实施路线图]]
+- 完整设计计划：[[80 系统/09 完整设计收敛计划]]
 - 总体评审：[[80 系统/03 总体设计评审记录]]
 - Phase 1 复盘：[[80 系统/04 Phase 1 试点复盘]]
 - 系统主页：[[80 系统/00 知识库主页]]
@@ -62,16 +73,19 @@ Gate A 和 Phase 1 试点复盘已经通过。当前 Draft PR #1 等待最终人
 
 - 数学：点与向量、向量空间、基与坐标、矩阵、仿射空间、标架、齐次坐标；
 - 图形学：坐标空间、Object→World、World→View、正交投影、透视投影、Clip/NDC、深度与 Reversed-Z；
-- 实验：矩阵约定、投影端点映射、浮点深度精度；
+- 实验：矩阵约定、观察与法线变换、投影端点映射、浮点深度精度；
 - 来源：《Foundations of 3D Computer Graphics》《Real-Time Rendering 4th》。
 
 ## 本地校验与实验
 
 ```bash
 python scripts/validate_kb.py
+python scripts/check_public_assets.py
+python scripts/check_pilot_consistency.py
 python experiments/math_graphics/coordinate_conventions.py
+python experiments/math_graphics/transform_invariants.py
 python experiments/math_graphics/projection_mapping.py
 python experiments/math_graphics/depth_precision.py
 ```
 
-Pull Request 中会自动运行知识库结构校验和上述实验。
+Pull Request 中会自动运行知识库结构、公开附件、Phase 1 一致性和上述实验校验。
