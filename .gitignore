@@ -1,0 +1,18 @@
+# Obsidian local workspace state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Trash and temporary files
+.trash/
+*.tmp
+*.bak
+
+# Local tooling
+__pycache__/
+.venv/

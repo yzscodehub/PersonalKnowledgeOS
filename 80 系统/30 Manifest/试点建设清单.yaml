@@ -1,0 +1,129 @@
+version: 1
+pilot: math-graphics-foundations
+status: planned
+sources:
+  - Steven J. Gortler - Foundations of 3D Computer Graphics
+  - Akenine-Möller 等 - Real-Time Rendering 4th
+
+articles:
+  - id: MATH-LA-001
+    title: 点与向量
+    domain: mathematics
+    module: linear-algebra
+    type: theory
+    priority: A
+  - id: MATH-LA-002
+    title: 向量空间
+    domain: mathematics
+    module: linear-algebra
+    type: theory
+    priority: A
+  - id: MATH-LA-003
+    title: 基与坐标
+    domain: mathematics
+    module: linear-algebra
+    type: theory
+    priority: A
+  - id: MATH-LA-004
+    title: 矩阵作为线性映射
+    domain: mathematics
+    module: linear-algebra
+    type: theory
+    priority: A
+  - id: MATH-GEO-001
+    title: 仿射空间与仿射组合
+    domain: mathematics
+    module: affine-geometry
+    type: theory
+    priority: A
+  - id: MATH-GEO-002
+    title: 标架与坐标系
+    domain: mathematics
+    module: affine-geometry
+    type: theory
+    priority: A
+  - id: MATH-GEO-003
+    title: 齐次坐标
+    domain: mathematics
+    module: projective-geometry
+    type: theory
+    priority: A
+  - id: MATH-ROT-001
+    title: 旋转矩阵
+    domain: mathematics
+    module: rotation
+    type: theory
+    priority: A
+  - id: MATH-ROT-002
+    title: 四元数与旋转
+    domain: mathematics
+    module: rotation
+    type: theory
+    priority: A
+  - id: GFX-SPACE-001
+    title: 图形学坐标空间总览
+    domain: graphics
+    module: conventions
+    type: concept
+    priority: A
+    prerequisites: [MATH-LA-003, MATH-GEO-002]
+  - id: GFX-TRANSFORM-001
+    title: Object 到 World 变换
+    domain: graphics
+    module: camera-projection
+    type: implementation
+    priority: A
+  - id: GFX-TRANSFORM-002
+    title: World 到 View 变换
+    domain: graphics
+    module: camera-projection
+    type: implementation
+    priority: A
+  - id: GFX-PROJ-001
+    title: 正交投影
+    domain: graphics
+    module: camera-projection
+    type: theory
+    priority: A
+  - id: GFX-PROJ-002
+    title: 透视投影
+    domain: graphics
+    module: camera-projection
+    type: theory
+    priority: A
+  - id: GFX-PROJ-003
+    title: Clip Space、透视除法与 NDC
+    domain: graphics
+    module: camera-projection
+    type: system
+    priority: A
+  - id: GFX-PIPE-001
+    title: CPU 到 GPU 帧流程
+    domain: graphics
+    module: raster-pipeline
+    type: system
+    priority: A
+  - id: GFX-PIPE-002
+    title: 顶点处理与图元装配
+    domain: graphics
+    module: raster-pipeline
+    type: system
+    priority: A
+  - id: GFX-PIPE-003
+    title: 光栅化与覆盖规则
+    domain: graphics
+    module: raster-pipeline
+    type: algorithm
+    priority: A
+  - id: GFX-PIPE-004
+    title: 透视正确插值
+    domain: graphics
+    module: raster-pipeline
+    type: theory
+    priority: A
+  - id: GFX-DEPTH-001
+    title: 深度缓冲、精度与 Reversed-Z
+    domain: graphics
+    module: visibility
+    type: theory
+    priority: A
