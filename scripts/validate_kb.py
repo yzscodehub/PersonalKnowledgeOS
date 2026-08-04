@@ -20,6 +20,8 @@ WIKILINK_RE = re.compile(r"\[\[([^\]]+)\]\]")
 TOP_LEVEL_KEY_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_-]*):(?:\s*(.*))?$")
 LIST_ITEM_RE = re.compile(r"^\s+-\s+(.*)$")
 FENCE_RE = re.compile(r"```.*?```|~~~.*?~~~", re.DOTALL)
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+ID_RE = re.compile(r"^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+){1,3}-\d{3}$")
 
 PropertyValue: TypeAlias = str | list[str]
 
@@ -27,10 +29,32 @@ CANONICAL_KNOWLEDGE_REQUIRED = {"id", "type", "domain", "maturity", "lifecycle"}
 MAP_REQUIRED = {"type", "map_kind", "domain", "maturity", "lifecycle"}
 SOURCE_REQUIRED = {"type", "source_type", "status"}
 CANONICAL_KNOWLEDGE_TYPES = {
-    "concept", "theory", "algorithm", "system", "api-reference",
-    "implementation", "experiment", "troubleshooting", "comparison", "principle",
+    "concept",
+    "theory",
+    "algorithm",
+    "system",
+    "implementation",
+    "api-reference",
+    "experiment",
+    "troubleshooting",
+    "comparison",
 }
-DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+VALID_DOMAINS = {
+    "mathematics",
+    "physics-engineering",
+    "computer-science",
+    "graphics",
+    "artificial-intelligence",
+    "software-engineering",
+    "systems-platforms",
+    "game-engine",
+    "multimedia",
+    "embedded-robotics-autonomous-driving",
+    "design-content",
+    "product-business-career",
+    "humanities-social-sciences",
+    "knowledge-system",
+}
 VALID_MATURITY = {"seed", "outline", "draft", "stable", "evergreen"}
 VALID_VERIFICATION = {
     "source-checked",
@@ -40,6 +64,20 @@ VALID_VERIFICATION = {
 }
 VALID_LIFECYCLE = {"active", "needs-update", "deprecated", "archived"}
 VALID_MAP_KIND = {"moc", "learning-route", "index", "dashboard"}
+LIST_FIELDS = {
+    "aliases",
+    "verification",
+    "sources",
+    "platforms",
+    "apis",
+    "versions",
+    "legacy_ids",
+    "superseded_by",
+    "prerequisites",
+    "contexts",
+    "project",
+    "area",
+}
 
 
 @dataclass(frozen=True)
@@ -121,6 +159,11 @@ def scalar(props: dict[str, PropertyValue], key: str) -> str:
     return value if isinstance(value, str) else ""
 
 
+def values(props: dict[str, PropertyValue], key: str) -> list[str]:
+    value = props.get(key, [])
+    return value if isinstance(value, list) else []
+
+
 def formal_knowledge(path: Path) -> bool:
     rel = relative(path)
     return rel.startswith("30 知识/") and not path.name.startswith("README")
@@ -181,6 +224,22 @@ def resolve_link(
     return False, f"失效链接：{target}"
 
 
+def validate_list_fields(
+    path: Path,
+    props: dict[str, PropertyValue],
+    findings: list[Finding],
+) -> None:
+    for key in sorted(LIST_FIELDS):
+        if key not in props:
+            continue
+        value = props[key]
+        if not isinstance(value, list):
+            findings.append(Finding("ERROR", path, f"{key} 必须使用 YAML 列表"))
+            continue
+        if len(value) != len(set(value)):
+            findings.append(Finding("ERROR", path, f"{key} 包含重复值"))
+
+
 def validate_verification(
     path: Path,
     props: dict[str, PropertyValue],
@@ -191,17 +250,7 @@ def validate_verification(
 
     verification = props["verification"]
     if not isinstance(verification, list):
-        findings.append(
-            Finding(
-                "ERROR",
-                path,
-                "verification 必须使用 YAML 列表；未验证请使用 [] 或省略字段",
-            )
-        )
         return
-
-    if len(verification) != len(set(verification)):
-        findings.append(Finding("ERROR", path, "verification 包含重复证据"))
 
     invalid = sorted(set(verification) - VALID_VERIFICATION)
     if invalid:
@@ -210,11 +259,82 @@ def validate_verification(
         )
 
 
+def validate_knowledge_object(
+    path: Path,
+    text: str,
+    props: dict[str, PropertyValue],
+    findings: list[Finding],
+) -> None:
+    note_type = scalar(props, "type")
+    if note_type == "map":
+        return
+
+    if note_type not in CANONICAL_KNOWLEDGE_TYPES:
+        findings.append(Finding("ERROR", path, f"非法正式知识 type：{note_type or '<empty>'}"))
+        return
+
+    note_id = scalar(props, "id")
+    if note_id and not ID_RE.match(note_id):
+        findings.append(Finding("ERROR", path, f"非法 id 格式：{note_id}"))
+
+    domain = scalar(props, "domain")
+    if domain and domain not in VALID_DOMAINS:
+        findings.append(Finding("ERROR", path, f"非法 domain：{domain}"))
+
+    if "legacy_id" in props:
+        findings.append(
+            Finding("WARNING", path, "legacy_id 为旧字段，请迁移为 legacy_ids 列表")
+        )
+
+    lifecycle = scalar(props, "lifecycle")
+    if lifecycle == "deprecated" and not values(props, "superseded_by"):
+        findings.append(
+            Finding(
+                "WARNING",
+                path,
+                "deprecated 文章没有 superseded_by；请确认正文说明了弃用原因和历史适用范围",
+            )
+        )
+    if lifecycle == "archived":
+        findings.append(
+            Finding(
+                "WARNING",
+                path,
+                "正式知识很少直接使用 archived；请确认是否应移动到 90 档案/30 知识历史",
+            )
+        )
+
+    if note_type == "api-reference":
+        if scalar(props, "version_sensitive").lower() != "true":
+            findings.append(
+                Finding("ERROR", path, "api-reference 必须设置 version_sensitive: true")
+            )
+
+    maturity = scalar(props, "maturity")
+    if note_type == "experiment" and maturity in {"stable", "evergreen"}:
+        if "experiment-reproduced" not in values(props, "verification"):
+            findings.append(
+                Finding(
+                    "ERROR",
+                    path,
+                    "stable/evergreen experiment 必须具有 experiment-reproduced 证据",
+                )
+            )
+
+    aliases = values(props, "aliases")
+    if aliases and path.stem in aliases:
+        findings.append(Finding("WARNING", path, "aliases 不应重复当前文件名／标题"))
+
+    if len(text.strip()) < 180:
+        findings.append(Finding("WARNING", path, "正式知识文章内容过短，请确认不是空壳"))
+
+
 def validate() -> list[Finding]:
     findings: list[Finding] = []
     files = markdown_files()
     exact, by_name = build_link_indexes(files)
     ids: dict[str, list[Path]] = defaultdict(list)
+    legacy_ids: dict[str, list[Path]] = defaultdict(list)
 
     for path in files:
         text = path.read_text(encoding="utf-8")
@@ -240,9 +360,13 @@ def validate() -> list[Finding]:
                     Finding("ERROR", path, f"缺少必填属性：{', '.join(missing)}")
                 )
 
+        validate_list_fields(path, props, findings)
+
         note_id = scalar(props, "id")
         if note_id:
             ids[note_id].append(path)
+        for legacy_id in values(props, "legacy_ids"):
+            legacy_ids[legacy_id].append(path)
 
         maturity = scalar(props, "maturity")
         if maturity and maturity not in VALID_MATURITY:
@@ -253,10 +377,8 @@ def validate() -> list[Finding]:
         maturity_rank = {"seed": 0, "outline": 1, "draft": 2, "stable": 3, "evergreen": 4}
         if formal_knowledge(path) and note_type in CANONICAL_KNOWLEDGE_TYPES:
             if maturity_rank.get(maturity, 0) >= maturity_rank["draft"]:
-                sources = props.get("sources", [])
-                verification = props.get("verification", [])
-                has_sources = isinstance(sources, list) and bool(sources)
-                evidence = set(verification) if isinstance(verification, list) else set()
+                has_sources = bool(values(props, "sources"))
+                evidence = set(values(props, "verification"))
                 original_evidence = {"derived", "experiment-reproduced", "production-validated"}
                 if not has_sources and not evidence.intersection(original_evidence):
                     findings.append(
@@ -285,6 +407,9 @@ def validate() -> list[Finding]:
         elif map_kind:
             findings.append(Finding("ERROR", path, "只有 type: map 可以使用 map_kind"))
 
+        if formal_knowledge(path):
+            validate_knowledge_object(path, text, props, findings)
+
         body_without_code = strip_fenced_code(text)
         for raw_link in WIKILINK_RE.findall(body_without_code):
             target = normalize_link(raw_link)
@@ -292,13 +417,17 @@ def validate() -> list[Finding]:
             if not valid and message:
                 findings.append(Finding("ERROR", path, message))
 
-        if formal_knowledge(path) and len(text.strip()) < 180:
-            findings.append(Finding("WARNING", path, "正式知识文章内容过短，请确认不是空壳"))
-
     for note_id, paths in ids.items():
         if len(paths) > 1:
             joined = ", ".join(relative(path) for path in paths)
             findings.append(Finding("ERROR", paths[0], f"重复 id {note_id}：{joined}"))
+
+    for legacy_id, paths in legacy_ids.items():
+        if len(paths) > 1:
+            joined = ", ".join(relative(path) for path in paths)
+            findings.append(
+                Finding("ERROR", paths[0], f"重复 legacy_id {legacy_id}：{joined}")
+            )
 
     return findings
 
