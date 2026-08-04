@@ -8,7 +8,7 @@
 2. 先确定信息角色和唯一主归属；
 3. 更新或新增知识正文；
 4. 同步更新 MOC、来源笔记和 Manifest；
-5. 运行 `python scripts/validate_kb.py`；
+5. 暂存后运行 `python scripts/sync_note_dates.py --staged`，重新暂存，再运行 `python scripts/validate_kb.py`；
 6. 创建 Pull Request，说明范围、来源、验证方式和遗留问题。
 
 ## 分支命名

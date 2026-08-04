@@ -3,8 +3,8 @@ type: map
 map_kind: moc
 domain:
 maturity: outline
-created:
-updated:
+created: {{date}}
+updated: {{date}}
 ---
 
 # 主题 MOC

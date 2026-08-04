@@ -28,6 +28,8 @@
 ## 合并前检查
 
 ```bash
+python scripts/sync_note_dates.py --staged
+git add .
 python scripts/validate_kb.py
 ```
 

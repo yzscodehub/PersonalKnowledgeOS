@@ -2,41 +2,100 @@
 
 ## 目标
 
-Properties 用于表达机器可查询的结构化信息和动态状态，不重复正文中的知识关系。
+Properties 只保存机器需要查询、校验或自动化的稳定结构和动态状态。知识关系、论证和证据明细保留在正文中。
 
-## 通用字段
+## 最小字段模型
 
-| 字段 | 说明 | 规则 |
-|---|---|---|
-| `type` | 笔记类型 | 正式笔记必填 |
-| `created` | 创建日期 | `YYYY-MM-DD` |
-| `updated` | 最近重要修改日期 | 内容发生实质变化时更新 |
-| `id` | Manifest 主题 ID | 已登记的核心知识文章必填 |
-| `aliases` | 常用别名 | 按需使用 |
-| `legacy_id` | 旧知识库 ID | 迁移文章按需使用 |
+### 正式知识文章
 
-## 知识文章字段
+适用于 `concept`、`theory`、`algorithm`、`system`、`api-reference`、`implementation`、`experiment`、`troubleshooting`、`comparison` 和 `principle`：
 
 ```yaml
 ---
-id: MATH-LA-001
+id: GFX-PROJ-002
 type: theory
-domain: mathematics
+domain: graphics
 maturity: draft
+lifecycle: active
 verification:
   - source-checked
   - derived
-lifecycle: active
 sources:
-  - "[[Steven J. Gortler - Foundations of 3D Computer Graphics]]"
+  - "[[Akenine-Möller 等 - Real-Time Rendering 4th]]"
 created: 2026-08-04
 updated: 2026-08-04
 ---
 ```
 
-### `type`
+必填核心字段：
 
-允许的核心类型：
+```text
+id
+type
+domain
+maturity
+lifecycle
+```
+
+### 地图类笔记
+
+```yaml
+---
+type: map
+map_kind: moc
+domain: graphics
+maturity: draft
+lifecycle: active
+created: 2026-08-04
+updated: 2026-08-04
+---
+```
+
+`id` 仅在地图被 Manifest 稳定引用时按需填写。
+
+### 来源笔记
+
+```yaml
+---
+type: source-note
+source_type: book
+status: reading
+created: 2026-08-04
+updated: 2026-08-04
+---
+```
+
+来源必填字段：`type`、`source_type`、`status`。
+
+### 项目笔记
+
+```yaml
+---
+type: project
+status: active
+area:
+  - "[[职业与技术能力]]"
+created: 2026-08-04
+updated: 2026-08-04
+---
+```
+
+项目必填字段：`type`、`status`。
+
+## 条件字段
+
+| 条件 | 要求 |
+|---|---|
+| 存在验证证据 | `verification` 使用列表 |
+| 正式知识达到 `draft` 或更高 | `sources` 至少包含一个来源；纯原创推导或实验可以用对应证据替代 |
+| `type: map` | 必须填写合法 `map_kind` |
+| 版本敏感 | 按需填写 `platforms`、`apis`、`versions`、`version_sensitive` |
+| 从旧库迁移 | 填写 `legacy_id` |
+| 已被替代 | 填写 `superseded_by` |
+
+## 字段词表
+
+### `type`
 
 ```text
 concept
@@ -59,8 +118,6 @@ system-design
 ```
 
 ### `domain`
-
-当前领域标识：
 
 ```text
 mathematics
@@ -91,8 +148,6 @@ evergreen
 
 ### `map_kind`
 
-当 `type: map` 时必填：
-
 ```text
 moc
 learning-route
@@ -100,11 +155,7 @@ index
 dashboard
 ```
 
-分别表示主题知识网络、目标学习路径、查找索引和动态仪表盘。其他类型不得填写 `map_kind`。
-
 ### `verification`
-
-`verification` 是可多选的证据列表，不是单选成熟度，也不存在“最高验证状态”。允许值：
 
 ```text
 source-checked
@@ -113,24 +164,7 @@ experiment-reproduced
 production-validated
 ```
 
-实际 YAML 不应包含上面代码块中的额外缩进；标准写法：
-
-```yaml
-verification:
-  - source-checked
-  - derived
-  - experiment-reproduced
-```
-
-尚无证据时使用：
-
-```yaml
-verification: []
-```
-
-也可以省略该字段。不得把 `unverified` 与其他证据并列，因为“未验证”是空证据状态，不是一种正向证据。
-
-具体来源、推导章节、实验文章或生产记录应在正文的“验证证据”部分链接，不只依赖属性标签。
+尚无证据时使用 `verification: []` 或省略字段。不得使用标量，也不使用 `unverified`。
 
 ### `lifecycle`
 
@@ -141,40 +175,20 @@ deprecated
 archived
 ```
 
-## 项目字段
+## 日期策略
 
-```yaml
----
-type: project
-status: active
-area:
-  - "[[职业与技术能力]]"
-created: 2026-08-04
-due:
----
-```
+`created` 和 `updated` 不作为知识语义字段，也不要求人工在每次编辑时维护。
 
-项目状态：`planned`、`active`、`waiting`、`paused`、`completed`、`cancelled`。
-
-## 来源字段
-
-```yaml
----
-type: source-note
-source_type: book
-status: reading
-created: 2026-08-04
-updated: 2026-08-04
----
-```
-
-来源状态：`unread`、`reading`、`processed`、`reference`、`abandoned`。
-
-来源不使用单一 `authority` 字段进行跨类型全局排序。来源能支持哪些声明，应在正文的“可支持的声明类型”中说明。
+- 模板在创建笔记时写入 `{{date}}`；
+- `created` 首次写入后保持不变；
+- 提交前运行 `python scripts/sync_note_dates.py --staged`，自动补充空日期并更新暂存区 Markdown 的 `updated`；
+- CI 校验已存在日期的格式，但日期字段本身不作为正式知识必填项；
+- 需要精确历史时以 Git 记录为最终依据。
 
 ## 按需字段
 
 ```text
+aliases
 module
 contexts
 prerequisites
@@ -183,6 +197,7 @@ apis
 versions
 version_sensitive
 project
+legacy_id
 superseded_by
 ```
 
@@ -193,4 +208,5 @@ superseded_by
 - 不用标签重复表达目录和知识领域；
 - 不把成熟度、生命周期和验证证据混成一条状态链；
 - 不把 `verification` 写成单值；
-- 不为每篇笔记强制填写所有可选字段。
+- 不为每篇笔记强制填写所有可选字段；
+- 不为了更新时间而进行无意义提交。

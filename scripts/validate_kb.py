@@ -23,8 +23,14 @@ FENCE_RE = re.compile(r"```.*?```|~~~.*?~~~", re.DOTALL)
 
 PropertyValue: TypeAlias = str | list[str]
 
-KNOWLEDGE_REQUIRED = {"type", "domain", "maturity", "created", "updated"}
-SOURCE_REQUIRED = {"type", "source_type", "status", "created", "updated"}
+CANONICAL_KNOWLEDGE_REQUIRED = {"id", "type", "domain", "maturity", "lifecycle"}
+MAP_REQUIRED = {"type", "map_kind", "domain", "maturity", "lifecycle"}
+SOURCE_REQUIRED = {"type", "source_type", "status"}
+CANONICAL_KNOWLEDGE_TYPES = {
+    "concept", "theory", "algorithm", "system", "api-reference",
+    "implementation", "experiment", "troubleshooting", "comparison", "principle",
+}
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 VALID_MATURITY = {"seed", "outline", "draft", "stable", "evergreen"}
 VALID_VERIFICATION = {
     "source-checked",
@@ -219,8 +225,9 @@ def validate() -> list[Finding]:
             continue
 
         required: set[str] = set()
+        note_type = scalar(props, "type")
         if formal_knowledge(path):
-            required = KNOWLEDGE_REQUIRED
+            required = MAP_REQUIRED if note_type == "map" else CANONICAL_KNOWLEDGE_REQUIRED
         elif formal_source(path):
             required = SOURCE_REQUIRED
 
@@ -243,11 +250,32 @@ def validate() -> list[Finding]:
 
         validate_verification(path, props, findings)
 
+        maturity_rank = {"seed": 0, "outline": 1, "draft": 2, "stable": 3, "evergreen": 4}
+        if formal_knowledge(path) and note_type in CANONICAL_KNOWLEDGE_TYPES:
+            if maturity_rank.get(maturity, 0) >= maturity_rank["draft"]:
+                sources = props.get("sources", [])
+                verification = props.get("verification", [])
+                has_sources = isinstance(sources, list) and bool(sources)
+                evidence = set(verification) if isinstance(verification, list) else set()
+                original_evidence = {"derived", "experiment-reproduced", "production-validated"}
+                if not has_sources and not evidence.intersection(original_evidence):
+                    findings.append(
+                        Finding(
+                            "ERROR",
+                            path,
+                            "draft 及以上正式知识需要 sources，或 derived/experiment/production 证据",
+                        )
+                    )
+
+        for date_key in ("created", "updated"):
+            date_value = scalar(props, date_key)
+            if date_value and date_value != "{{date}}" and not DATE_RE.match(date_value):
+                findings.append(Finding("ERROR", path, f"非法 {date_key} 日期：{date_value}"))
+
         lifecycle = scalar(props, "lifecycle")
         if lifecycle and lifecycle not in VALID_LIFECYCLE:
             findings.append(Finding("ERROR", path, f"非法 lifecycle：{lifecycle}"))
 
-        note_type = scalar(props, "type")
         map_kind = scalar(props, "map_kind")
         if note_type == "map":
             if not map_kind:

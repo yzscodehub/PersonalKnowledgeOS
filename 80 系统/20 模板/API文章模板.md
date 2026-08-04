@@ -10,8 +10,8 @@ platforms: []
 apis: []
 versions: []
 sources: []
-created:
-updated:
+created: {{date}}
+updated: {{date}}
 ---
 
 # API／对象名称
