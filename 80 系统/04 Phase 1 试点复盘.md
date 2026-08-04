@@ -2,7 +2,7 @@
 type: system-review
 status: accepted
 review_scope: phase-1
-version: 2.0
+version: 2.1
 created: 2026-08-04
 updated: 2026-08-04
 ---
@@ -133,12 +133,12 @@ MOC / 学习路线 / Manifest
 - 没有阻断性的公式、约定、链接或归属错误；
 - 所有 CI 检查通过；
 - 本文 `status` 从 `review` 改为 `accepted`；
-- PR #1 满足 [[80 系统/60 ADR/ADR-0013-Bootstrap-PR合并边界|ADR-0013]] 的合并条件。
+- Phase 1 结论可作为完整设计的验证样本；PR #1 的最终合并条件由 [[80 系统/60 ADR/ADR-0014-完整设计后合并Bootstrap分支|ADR-0014]] 定义。
 
 ## 6. 当前结论
 
 `accepted`
 
-Phase 1 试点已经形成来源—数学—图形学—实验—MOC／路线／Manifest 的闭环，满足 PR #1 最终评审条件。
+Phase 1 试点已经形成来源—数学—图形学—实验—MOC／路线／Manifest 的闭环。该试点继续作为完整设计阶段的验证样本，但不再构成 PR #1 的合并触发条件。
 
-下一步先执行矩阵、投影和深度约定的逐篇审核，再审核来源定位、知识边界和系统一致性。
+下一步进入 [[80 系统/09 完整设计收敛计划|完整设计收敛计划]] 的 D1 顶层信息角色详细设计。
