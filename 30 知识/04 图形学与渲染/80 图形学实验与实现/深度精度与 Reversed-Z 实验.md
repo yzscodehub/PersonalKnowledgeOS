@@ -95,6 +95,11 @@ depth precision: PASS
 - 实际 GPU 深度纹理可视化；
 - 相机距离变化下的 Z-Fighting 样例。
 
+## 验证证据
+
+- 可执行代码：`experiments/math_graphics/depth_precision.py`；
+- CI 断言：深度端点和 Float32 远距离世界步长对比。
+
 ## 知识关系
 
 - [[30 知识/04 图形学与渲染/12 相机、投影与可见性/透视投影|透视投影]]

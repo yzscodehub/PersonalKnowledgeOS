@@ -6,6 +6,7 @@ maturity: draft
 verification:
   - source-checked
   - derived
+  - experiment-reproduced
 lifecycle: active
 sources:
   - "[[Steven J. Gortler - Foundations of 3D Computer Graphics]]"
@@ -196,6 +197,12 @@ View 矩阵是相机世界位姿的逆。
 3. 位于相机前方的点应得到符合约定的 View Space 深度符号；
 4. 验证 $M_{vw}M_{wv}^{camera}=I$；
 5. 对 Look-At 输入接近平行的上方向，验证退化处理。
+
+## 验证证据
+
+- 来源核对：Foundations 第 5、10 章；Real-Time Rendering 4th 第 4 章；
+- 推导：本文“View 矩阵是相机位姿的逆”；
+- 实验：[[30 知识/04 图形学与渲染/80 图形学实验与实现/观察与法线变换不变量实验|观察与法线变换不变量实验]]。
 
 ## 知识关系
 

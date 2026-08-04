@@ -103,6 +103,11 @@ projection mapping: PASS
 - 未覆盖实际 GPU 裁剪和像素中心规则；
 - 未覆盖左手观察空间。
 
+## 验证证据
+
+- 可执行代码：`experiments/math_graphics/projection_mapping.py`；
+- CI 断言：正交和透视投影的近远端点及视锥角点。
+
 ## 知识关系
 
 - [[30 知识/04 图形学与渲染/12 相机、投影与可见性/正交投影|正交投影]]

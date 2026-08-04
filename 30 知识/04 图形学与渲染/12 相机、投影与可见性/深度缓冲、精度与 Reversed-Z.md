@@ -186,6 +186,12 @@ $$
 4. 运行 [[30 知识/04 图形学与渲染/80 图形学实验与实现/深度精度与 Reversed-Z 实验|深度精度与 Reversed-Z 实验]]；
 5. 在 RenderDoc、PIX 或 Nsight 中检查清除值、比较函数和实际深度分布。
 
+## 验证证据
+
+- 来源核对：Foundations 第 11 章；Real-Time Rendering 4th 第 4 章；
+- 推导：本文标准深度、反解和无限远 Reversed-Z 公式；
+- 实验：[[30 知识/04 图形学与渲染/80 图形学实验与实现/深度精度与 Reversed-Z 实验|深度精度与 Reversed-Z 实验]]。
+
 ## 知识关系
 
 ### 前置知识

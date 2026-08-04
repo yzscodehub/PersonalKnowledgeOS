@@ -5,6 +5,7 @@ domain: graphics
 maturity: draft
 verification:
   - source-checked
+  - experiment-reproduced
 lifecycle: active
 sources:
   - "[[Steven J. Gortler - Foundations of 3D Computer Graphics]]"
@@ -184,6 +185,11 @@ $$
 3. 比较 `TRS` 与其他顺序的已知点结果；
 4. 在非均匀缩放曲面上验证法线与切向量点积接近零；
 5. 运行 [[30 知识/04 图形学与渲染/80 图形学实验与实现/矩阵乘法与坐标约定实验|矩阵乘法与坐标约定实验]]。
+
+## 验证证据
+
+- 来源核对：Foundations 第 3、5 章；Real-Time Rendering 4th 第 4 章；
+- 实验：[[30 知识/04 图形学与渲染/80 图形学实验与实现/矩阵乘法与坐标约定实验|矩阵乘法与坐标约定实验]]、[[30 知识/04 图形学与渲染/80 图形学实验与实现/观察与法线变换不变量实验|观察与法线变换不变量实验]]。
 
 ## 知识关系
 

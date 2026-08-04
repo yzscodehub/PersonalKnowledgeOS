@@ -2,7 +2,7 @@
 id:
 type: api-reference
 domain:
-maturity: draft
+maturity: seed
 verification: []
 lifecycle: active
 version_sensitive: true
@@ -16,28 +16,22 @@ updated: {{date}}
 
 # API／对象名称
 
-## 功能定位
+## 功能与范围
 
-## 所属模块与生命周期
+## 对象、接口与生命周期
 
-## 核心接口
+## 创建、使用与销毁流程
 
-## 创建与销毁流程
-
-## 关键参数
-
-## 状态、同步与线程要求
-
-## 资源所有权
+## 状态、同步、线程与资源所有权
 
 ## 最小示例
 
-## 错误与边界
-
-## 调试方法
+## 错误、边界与调试
 
 ## 性能影响
 
 ## 跨平台对应
+
+## 验证证据
 
 ## 官方来源

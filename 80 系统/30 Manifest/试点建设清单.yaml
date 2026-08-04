@@ -227,3 +227,13 @@ experiments:
       - experiment-reproduced
     article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/深度精度与 Reversed-Z 实验.md
     code_path: experiments/math_graphics/depth_precision.py
+
+
+  - id: GFX-EXP-TRANSFORM-001
+    title: 观察与法线变换不变量实验
+    status: stable
+    verification:
+      - source-checked
+      - experiment-reproduced
+    article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/观察与法线变换不变量实验.md
+    code_path: experiments/math_graphics/transform_invariants.py

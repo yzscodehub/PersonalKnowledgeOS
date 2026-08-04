@@ -6,6 +6,7 @@
 
 ```bash
 python experiments/math_graphics/coordinate_conventions.py
+python experiments/math_graphics/transform_invariants.py
 python experiments/math_graphics/projection_mapping.py
 python experiments/math_graphics/depth_precision.py
 ```
