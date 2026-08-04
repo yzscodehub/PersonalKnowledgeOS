@@ -13,6 +13,13 @@ desktop.ini
 *.tmp
 *.bak
 
+# Local private content while repository is public
+_private/
+*.private.md
+*.secret.md
+.env
+.env.*
+
 # Local tooling
 __pycache__/
 .venv/
