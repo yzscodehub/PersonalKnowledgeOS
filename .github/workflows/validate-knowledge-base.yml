@@ -27,8 +27,12 @@ jobs:
       - name: Check public assets
         run: python scripts/check_public_assets.py
 
+      - name: Check Phase 1 consistency
+        run: python scripts/check_pilot_consistency.py
+
       - name: Run math and graphics experiments
         run: |
           python experiments/math_graphics/coordinate_conventions.py
+          python experiments/math_graphics/transform_invariants.py
           python experiments/math_graphics/projection_mapping.py
           python experiments/math_graphics/depth_precision.py
