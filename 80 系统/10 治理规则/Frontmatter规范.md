@@ -151,13 +151,14 @@ due:
 type: source-note
 source_type: book
 status: reading
-authority: authoritative-secondary
 created: 2026-08-04
 updated: 2026-08-04
 ---
 ```
 
 来源状态：`unread`、`reading`、`processed`、`reference`、`abandoned`。
+
+来源不使用单一 `authority` 字段进行跨类型全局排序。来源能支持哪些声明，应在正文的“可支持的声明类型”中说明。
 
 ## 按需字段
 
