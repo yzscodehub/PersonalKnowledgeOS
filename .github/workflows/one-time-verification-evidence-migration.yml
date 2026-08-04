@@ -28,6 +28,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Patch one-time migration script
+        run: |
+          sed -i 's/7\. 内容成熟度、验证状态和生命周期分别管理。/8. 内容成熟度、验证状态和生命周期分别管理。/' scripts/one_time_verification_evidence_migration.py
+          sed -i 's/^ derived$/derived/' scripts/one_time_verification_evidence_migration.py
+
       - name: Apply verification evidence migration
         run: python scripts/one_time_verification_evidence_migration.py
 
