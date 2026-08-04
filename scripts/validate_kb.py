@@ -33,6 +33,7 @@ VALID_VERIFICATION = {
     "production-validated",
 }
 VALID_LIFECYCLE = {"active", "needs-update", "deprecated", "archived"}
+VALID_MAP_KIND = {"moc", "learning-route", "index", "dashboard"}
 
 
 @dataclass(frozen=True)
@@ -245,6 +246,16 @@ def validate() -> list[Finding]:
         lifecycle = scalar(props, "lifecycle")
         if lifecycle and lifecycle not in VALID_LIFECYCLE:
             findings.append(Finding("ERROR", path, f"非法 lifecycle：{lifecycle}"))
+
+        note_type = scalar(props, "type")
+        map_kind = scalar(props, "map_kind")
+        if note_type == "map":
+            if not map_kind:
+                findings.append(Finding("ERROR", path, "type: map 缺少 map_kind"))
+            elif map_kind not in VALID_MAP_KIND:
+                findings.append(Finding("ERROR", path, f"非法 map_kind：{map_kind}"))
+        elif map_kind:
+            findings.append(Finding("ERROR", path, "只有 type: map 可以使用 map_kind"))
 
         body_without_code = strip_fenced_code(text)
         for raw_link in WIKILINK_RE.findall(body_without_code):

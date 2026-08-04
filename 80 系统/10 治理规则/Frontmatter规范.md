@@ -55,7 +55,6 @@ project
 area
 output
 journal
-dashboard
 system-design
 ```
 
@@ -89,6 +88,19 @@ draft
 stable
 evergreen
 ```
+
+### `map_kind`
+
+当 `type: map` 时必填：
+
+```text
+moc
+learning-route
+index
+dashboard
+```
+
+分别表示主题知识网络、目标学习路径、查找索引和动态仪表盘。其他类型不得填写 `map_kind`。
 
 ### `verification`
 

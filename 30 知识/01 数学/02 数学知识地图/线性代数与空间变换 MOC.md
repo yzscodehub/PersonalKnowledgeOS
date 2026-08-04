@@ -1,5 +1,6 @@
 ---
 type: map
+map_kind: moc
 domain: mathematics
 maturity: draft
 created: 2026-08-04
