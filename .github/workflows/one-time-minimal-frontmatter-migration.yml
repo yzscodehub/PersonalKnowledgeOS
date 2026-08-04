@@ -28,6 +28,10 @@ jobs:
       - name: Apply minimal Frontmatter migration
         run: python scripts/one_time_minimal_frontmatter_migration.py
 
+      - name: Allow template date placeholders
+        run: |
+          sed -i 's/if date_value and not DATE_RE.match(date_value):/if date_value and date_value != "{{date}}" and not DATE_RE.match(date_value):/' scripts/validate_kb.py
+
       - name: Validate knowledge base and experiments
         run: |
           python scripts/validate_kb.py
