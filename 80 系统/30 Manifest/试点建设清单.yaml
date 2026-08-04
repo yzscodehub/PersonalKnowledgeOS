@@ -204,20 +204,26 @@ experiments:
   - id: GFX-EXP-SPACE-001
     title: 矩阵乘法与坐标约定实验
     status: stable
-    verification: experiment-reproduced
+    verification:
+      - source-checked
+      - experiment-reproduced
     article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/矩阵乘法与坐标约定实验.md
     code_path: experiments/math_graphics/coordinate_conventions.py
 
   - id: GFX-EXP-PROJ-001
     title: 投影矩阵与 NDC 映射实验
     status: stable
-    verification: experiment-reproduced
+    verification:
+      - source-checked
+      - experiment-reproduced
     article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/投影矩阵与 NDC 映射实验.md
     code_path: experiments/math_graphics/projection_mapping.py
 
   - id: GFX-EXP-DEPTH-001
     title: 深度精度与 Reversed-Z 实验
     status: stable
-    verification: experiment-reproduced
+    verification:
+      - source-checked
+      - experiment-reproduced
     article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/深度精度与 Reversed-Z 实验.md
     code_path: experiments/math_graphics/depth_precision.py

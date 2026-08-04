@@ -3,7 +3,9 @@ id: GFX-EXP-DEPTH-001
 type: experiment
 domain: graphics
 maturity: stable
-verification: experiment-reproduced
+verification:
+  - source-checked
+  - experiment-reproduced
 lifecycle: active
 sources:
   - "[[Akenine-Möller 等 - Real-Time Rendering 4th]]"

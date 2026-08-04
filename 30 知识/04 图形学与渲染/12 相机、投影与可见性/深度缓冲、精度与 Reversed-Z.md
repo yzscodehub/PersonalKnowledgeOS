@@ -3,7 +3,10 @@ id: GFX-DEPTH-001
 type: theory
 domain: graphics
 maturity: draft
-verification: experiment-reproduced
+verification:
+  - source-checked
+  - derived
+  - experiment-reproduced
 lifecycle: active
 sources:
   - "[[Akenine-Möller 等 - Real-Time Rendering 4th]]"

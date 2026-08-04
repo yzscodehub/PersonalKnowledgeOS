@@ -3,7 +3,7 @@ id:
 type: api-reference
 domain:
 maturity: draft
-verification: source-checked
+verification: []
 lifecycle: active
 version_sensitive: true
 platforms: []

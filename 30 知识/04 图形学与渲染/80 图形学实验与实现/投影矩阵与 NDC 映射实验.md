@@ -3,7 +3,9 @@ id: GFX-EXP-PROJ-001
 type: experiment
 domain: graphics
 maturity: stable
-verification: experiment-reproduced
+verification:
+  - source-checked
+  - experiment-reproduced
 lifecycle: active
 sources:
   - "[[Steven J. Gortler - Foundations of 3D Computer Graphics]]"

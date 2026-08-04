@@ -459,7 +459,7 @@ evergreen
 
 ```text
 source-checked
- derived
+derived
 experiment-reproduced
 production-validated
 ```
@@ -900,7 +900,7 @@ def update_changelog() -> None:
 def update_readme() -> None:
     replace_exact(
         "README.md",
-        "7. 内容成熟度、验证状态和生命周期分别管理。",
+        "8. 内容成熟度、验证状态和生命周期分别管理。",
         "7. 内容成熟度、验证证据和生命周期分别管理。",
         count=1,
     )

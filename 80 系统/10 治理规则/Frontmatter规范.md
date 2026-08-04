@@ -23,7 +23,9 @@ id: MATH-LA-001
 type: theory
 domain: mathematics
 maturity: draft
-verification: source-checked
+verification:
+  - source-checked
+  - derived
 lifecycle: active
 sources:
   - "[[Steven J. Gortler - Foundations of 3D Computer Graphics]]"
@@ -90,13 +92,33 @@ evergreen
 
 ### `verification`
 
+`verification` 是可多选的证据列表，不是单选成熟度，也不存在“最高验证状态”。允许值：
+
 ```text
-unverified
 source-checked
 derived
 experiment-reproduced
 production-validated
 ```
+
+实际 YAML 不应包含上面代码块中的额外缩进；标准写法：
+
+```yaml
+verification:
+  - source-checked
+  - derived
+  - experiment-reproduced
+```
+
+尚无证据时使用：
+
+```yaml
+verification: []
+```
+
+也可以省略该字段。不得把 `unverified` 与其他证据并列，因为“未验证”是空证据状态，不是一种正向证据。
+
+具体来源、推导章节、实验文章或生产记录应在正文的“验证证据”部分链接，不只依赖属性标签。
 
 ### `lifecycle`
 
@@ -155,6 +177,7 @@ superseded_by
 
 - 不维护与正文重复的庞大 `related` 列表；
 - 不把 A/B/C 写成文章的全局绝对优先级；
-- 不用标签重复表达目录和领域；
-- 不把 `reviewed`、`verified` 和内容成熟度混成一条状态链；
+- 不用标签重复表达目录和知识领域；
+- 不把成熟度、生命周期和验证证据混成一条状态链；
+- 不把 `verification` 写成单值；
 - 不为每篇笔记强制填写所有可选字段。

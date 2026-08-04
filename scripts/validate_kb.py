@@ -12,18 +12,21 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TypeAlias
 
 ROOT = Path(__file__).resolve().parents[1]
 EXCLUDED_PARTS = {".git", ".trash", ".venv", "__pycache__"}
 WIKILINK_RE = re.compile(r"\[\[([^\]]+)\]\]")
 TOP_LEVEL_KEY_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_-]*):(?:\s*(.*))?$")
+LIST_ITEM_RE = re.compile(r"^\s+-\s+(.*)$")
 FENCE_RE = re.compile(r"```.*?```|~~~.*?~~~", re.DOTALL)
+
+PropertyValue: TypeAlias = str | list[str]
 
 KNOWLEDGE_REQUIRED = {"type", "domain", "maturity", "created", "updated"}
 SOURCE_REQUIRED = {"type", "source_type", "status", "created", "updated"}
 VALID_MATURITY = {"seed", "outline", "draft", "stable", "evergreen"}
 VALID_VERIFICATION = {
-    "unverified",
     "source-checked",
     "derived",
     "experiment-reproduced",
@@ -52,7 +55,14 @@ def relative(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
 
-def parse_frontmatter(text: str) -> tuple[dict[str, str], str | None]:
+def unquote(value: str) -> str:
+    value = value.strip()
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
+        return value[1:-1]
+    return value
+
+
+def parse_frontmatter(text: str) -> tuple[dict[str, PropertyValue], str | None]:
     if not text.startswith("---\n") and text != "---":
         return {}, None
 
@@ -65,14 +75,43 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str | None]:
     if closing is None:
         return {}, "Frontmatter 未闭合"
 
-    data: dict[str, str] = {}
-    for line in lines[1:closing]:
-        if line.startswith((" ", "\t", "-")):
-            continue
+    data: dict[str, PropertyValue] = {}
+    index = 1
+    while index < closing:
+        line = lines[index]
         match = TOP_LEVEL_KEY_RE.match(line)
-        if match:
-            data[match.group(1)] = (match.group(2) or "").strip().strip('"\'')
+        if not match:
+            index += 1
+            continue
+
+        key = match.group(1)
+        raw_value = (match.group(2) or "").strip()
+        if raw_value == "[]":
+            data[key] = []
+            index += 1
+            continue
+        if raw_value:
+            data[key] = unquote(raw_value)
+            index += 1
+            continue
+
+        items: list[str] = []
+        cursor = index + 1
+        while cursor < closing:
+            item_match = LIST_ITEM_RE.match(lines[cursor])
+            if not item_match:
+                break
+            items.append(unquote(item_match.group(1)))
+            cursor += 1
+        data[key] = items if items else ""
+        index = cursor
+
     return data, None
+
+
+def scalar(props: dict[str, PropertyValue], key: str) -> str:
+    value = props.get(key, "")
+    return value if isinstance(value, str) else ""
 
 
 def formal_knowledge(path: Path) -> bool:
@@ -118,7 +157,6 @@ def resolve_link(
 ) -> tuple[bool, str | None]:
     if not target:
         return True, None
-
     if target in exact:
         return True, None
 
@@ -134,6 +172,35 @@ def resolve_link(
     if len(matches) > 1:
         return False, f"链接目标存在歧义：{target} -> {', '.join(matches)}"
     return False, f"失效链接：{target}"
+
+
+def validate_verification(
+    path: Path,
+    props: dict[str, PropertyValue],
+    findings: list[Finding],
+) -> None:
+    if "verification" not in props:
+        return
+
+    verification = props["verification"]
+    if not isinstance(verification, list):
+        findings.append(
+            Finding(
+                "ERROR",
+                path,
+                "verification 必须使用 YAML 列表；未验证请使用 [] 或省略字段",
+            )
+        )
+        return
+
+    if len(verification) != len(set(verification)):
+        findings.append(Finding("ERROR", path, "verification 包含重复证据"))
+
+    invalid = sorted(set(verification) - VALID_VERIFICATION)
+    if invalid:
+        findings.append(
+            Finding("ERROR", path, f"非法 verification 证据：{', '.join(invalid)}")
+        )
 
 
 def validate() -> list[Finding]:
@@ -165,19 +232,17 @@ def validate() -> list[Finding]:
                     Finding("ERROR", path, f"缺少必填属性：{', '.join(missing)}")
                 )
 
-        note_id = props.get("id")
+        note_id = scalar(props, "id")
         if note_id:
             ids[note_id].append(path)
 
-        maturity = props.get("maturity")
+        maturity = scalar(props, "maturity")
         if maturity and maturity not in VALID_MATURITY:
             findings.append(Finding("ERROR", path, f"非法 maturity：{maturity}"))
 
-        verification = props.get("verification")
-        if verification and verification not in VALID_VERIFICATION:
-            findings.append(Finding("ERROR", path, f"非法 verification：{verification}"))
+        validate_verification(path, props, findings)
 
-        lifecycle = props.get("lifecycle")
+        lifecycle = scalar(props, "lifecycle")
         if lifecycle and lifecycle not in VALID_LIFECYCLE:
             findings.append(Finding("ERROR", path, f"非法 lifecycle：{lifecycle}"))
 
@@ -188,10 +253,8 @@ def validate() -> list[Finding]:
             if not valid and message:
                 findings.append(Finding("ERROR", path, message))
 
-        if formal_knowledge(path):
-            body = text.strip()
-            if len(body) < 180:
-                findings.append(Finding("WARNING", path, "正式知识文章内容过短，请确认不是空壳"))
+        if formal_knowledge(path) and len(text.strip()) < 180:
+            findings.append(Finding("WARNING", path, "正式知识文章内容过短，请确认不是空壳"))
 
     for note_id, paths in ids.items():
         if len(paths) > 1:

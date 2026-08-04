@@ -3,7 +3,8 @@ id: GFX-TRANSFORM-001
 type: implementation
 domain: graphics
 maturity: draft
-verification: source-checked
+verification:
+  - source-checked
 lifecycle: active
 sources:
   - "[[Steven J. Gortler - Foundations of 3D Computer Graphics]]"

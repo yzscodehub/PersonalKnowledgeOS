@@ -3,7 +3,9 @@ id: GFX-TRANSFORM-002
 type: theory
 domain: graphics
 maturity: draft
-verification: derived
+verification:
+  - source-checked
+  - derived
 lifecycle: active
 sources:
   - "[[Steven J. Gortler - Foundations of 3D Computer Graphics]]"
