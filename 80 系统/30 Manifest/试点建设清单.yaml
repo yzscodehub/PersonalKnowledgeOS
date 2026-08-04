@@ -22,8 +22,10 @@ articles:
     domain: mathematics
     module: linear-algebra
     type: theory
-    status: planned
+    status: draft
     priority: A
+    prerequisites: [MATH-LA-001]
+    path: 30 知识/01 数学/11 线性代数/向量空间.md
 
   - id: MATH-LA-003
     title: 基与坐标
@@ -32,7 +34,7 @@ articles:
     type: theory
     status: draft
     priority: A
-    prerequisites: [MATH-LA-001]
+    prerequisites: [MATH-LA-001, MATH-LA-002]
     path: 30 知识/01 数学/11 线性代数/基与坐标.md
 
   - id: MATH-LA-004
@@ -40,18 +42,20 @@ articles:
     domain: mathematics
     module: linear-algebra
     type: theory
-    status: planned
+    status: draft
     priority: A
     prerequisites: [MATH-LA-002, MATH-LA-003]
+    path: 30 知识/01 数学/11 线性代数/矩阵作为线性映射.md
 
   - id: MATH-GEO-001
     title: 仿射空间与仿射组合
     domain: mathematics
     module: affine-geometry
     type: theory
-    status: planned
+    status: draft
     priority: A
-    prerequisites: [MATH-LA-001]
+    prerequisites: [MATH-LA-001, MATH-LA-002]
+    path: 30 知识/01 数学/12 解析、仿射与射影几何/仿射空间与仿射组合.md
 
   - id: MATH-GEO-002
     title: 标架与坐标系
@@ -60,7 +64,7 @@ articles:
     type: theory
     status: draft
     priority: A
-    prerequisites: [MATH-LA-001, MATH-LA-003]
+    prerequisites: [MATH-LA-001, MATH-LA-003, MATH-GEO-001]
     path: 30 知识/01 数学/12 解析、仿射与射影几何/标架与坐标系.md
 
   - id: MATH-GEO-003
@@ -68,9 +72,10 @@ articles:
     domain: mathematics
     module: projective-geometry
     type: theory
-    status: planned
+    status: draft
     priority: A
-    prerequisites: [MATH-GEO-002]
+    prerequisites: [MATH-LA-004, MATH-GEO-001, MATH-GEO-002]
+    path: 30 知识/01 数学/12 解析、仿射与射影几何/齐次坐标.md
 
   - id: MATH-ROT-001
     title: 旋转矩阵
@@ -104,43 +109,60 @@ articles:
     domain: graphics
     module: camera-projection
     type: implementation
-    status: planned
+    status: draft
     priority: A
-    prerequisites: [GFX-SPACE-001]
+    prerequisites: [GFX-SPACE-001, MATH-LA-004, MATH-GEO-001]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/Object 到 World 变换.md
 
   - id: GFX-TRANSFORM-002
     title: World 到 View 变换
     domain: graphics
     module: camera-projection
-    type: implementation
-    status: planned
+    type: theory
+    status: draft
     priority: A
-    prerequisites: [GFX-SPACE-001, MATH-GEO-002]
+    prerequisites: [GFX-SPACE-001, MATH-GEO-002, GFX-TRANSFORM-001]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/World 到 View 变换.md
 
   - id: GFX-PROJ-001
     title: 正交投影
     domain: graphics
     module: camera-projection
     type: theory
-    status: planned
+    status: draft
     priority: A
+    prerequisites: [GFX-TRANSFORM-002, MATH-GEO-003]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/正交投影.md
 
   - id: GFX-PROJ-002
     title: 透视投影
     domain: graphics
     module: camera-projection
     type: theory
-    status: planned
+    status: draft
     priority: A
+    prerequisites: [GFX-TRANSFORM-002, MATH-GEO-003]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/透视投影.md
 
   - id: GFX-PROJ-003
     title: Clip Space、透视除法与 NDC
     domain: graphics
     module: camera-projection
     type: system
-    status: planned
+    status: draft
     priority: A
     prerequisites: [GFX-PROJ-001, GFX-PROJ-002]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/Clip Space、透视除法与 NDC.md
+
+  - id: GFX-DEPTH-001
+    title: 深度缓冲、精度与 Reversed-Z
+    domain: graphics
+    module: visibility
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [GFX-PROJ-003]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/深度缓冲、精度与 Reversed-Z.md
 
   - id: GFX-PIPE-001
     title: CPU 到 GPU 帧流程
@@ -158,7 +180,7 @@ articles:
     type: system
     status: planned
     priority: A
-    prerequisites: [GFX-PIPE-001]
+    prerequisites: [GFX-PIPE-001, GFX-PROJ-003]
 
   - id: GFX-PIPE-003
     title: 光栅化与覆盖规则
@@ -178,11 +200,24 @@ articles:
     priority: A
     prerequisites: [GFX-PIPE-003, GFX-PROJ-003]
 
-  - id: GFX-DEPTH-001
-    title: 深度缓冲、精度与 Reversed-Z
-    domain: graphics
-    module: visibility
-    type: theory
-    status: planned
-    priority: A
-    prerequisites: [GFX-PROJ-003]
+experiments:
+  - id: GFX-EXP-SPACE-001
+    title: 矩阵乘法与坐标约定实验
+    status: stable
+    verification: experiment-reproduced
+    article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/矩阵乘法与坐标约定实验.md
+    code_path: experiments/math_graphics/coordinate_conventions.py
+
+  - id: GFX-EXP-PROJ-001
+    title: 投影矩阵与 NDC 映射实验
+    status: stable
+    verification: experiment-reproduced
+    article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/投影矩阵与 NDC 映射实验.md
+    code_path: experiments/math_graphics/projection_mapping.py
+
+  - id: GFX-EXP-DEPTH-001
+    title: 深度精度与 Reversed-Z 实验
+    status: stable
+    verification: experiment-reproduced
+    article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/深度精度与 Reversed-Z 实验.md
+    code_path: experiments/math_graphics/depth_precision.py

@@ -23,3 +23,9 @@ jobs:
 
       - name: Validate knowledge base
         run: python scripts/validate_kb.py
+
+      - name: Run math and graphics experiments
+        run: |
+          python experiments/math_graphics/coordinate_conventions.py
+          python experiments/math_graphics/projection_mapping.py
+          python experiments/math_graphics/depth_precision.py
