@@ -21,6 +21,17 @@ def write(path: str, content: str) -> None:
     print(path)
 
 
+def fix_manifest_link() -> None:
+    path = "80 系统/13 D3 端到端工作流设计.md"
+    text = read(path)
+    text = text.replace(
+        "- [[80 系统/30 Manifest/端到端工作流清单|端到端工作流清单]]",
+        "- 工作流机器清单：`80 系统/30 Manifest/端到端工作流清单.yaml`",
+        1,
+    )
+    write(path, text)
+
+
 def update_plan() -> None:
     path = "80 系统/09 完整设计收敛计划.md"
     text = read(path)
@@ -182,6 +193,7 @@ def update_changelog() -> None:
 
 
 def main() -> None:
+    fix_manifest_link()
     update_plan()
     update_design()
     update_roadmap()
