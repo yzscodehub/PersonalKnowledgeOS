@@ -108,6 +108,7 @@ python scripts/sync_note_dates.py --staged
 git add .
 python scripts/validate_kb.py
 python scripts/check_workflow_registry.py
+python scripts/check_domain_blueprints.py
 python scripts/check_public_assets.py
 python scripts/check_pilot_consistency.py
 ```

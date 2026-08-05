@@ -50,11 +50,10 @@ _assets          图片与附件
 
 ## 当前阶段
 
-Gate A、Phase 1、D1 顶层信息角色、D2 知识对象与导航模型和 D3 端到端工作流已经通过，但 **PR #1 暂不合并**。当前继续在 `design/knowledge-base-v3` 分支完成 D4～D10，全部完成后再统一评审和合并。
+Gate A、Phase 1、D1 顶层信息角色、D2 知识对象与导航模型、D3 端到端工作流和 D4 全知识领域蓝图已经通过，但 **PR #1 暂不合并**。当前继续在 `design/knowledge-base-v3` 分支完成 D5～D10，全部完成后再统一评审和合并。
 
 当前允许继续建设：
 
-- 全知识领域蓝图；
 - Obsidian 首页、仪表盘、模板和查询体验；
 - 自动化、Git、备份、发布、迁移和长期治理设计；
 - 为验证设计所需的最小样例和试点修复。
@@ -67,6 +66,7 @@ Gate A、Phase 1、D1 顶层信息角色、D2 知识对象与导航模型和 D3 
 - D1 顶层信息角色：[[80 系统/11 D1 顶层信息角色详细设计]]
 - D2 知识对象与导航：[[80 系统/12 D2 知识对象与导航模型]]
 - D3 端到端工作流：[[80 系统/13 D3 端到端工作流设计]]
+- D4 全知识领域蓝图：[[80 系统/14 D4 全知识领域蓝图]]
 - 总体评审：[[80 系统/03 总体设计评审记录]]
 - Phase 1 复盘：[[80 系统/04 Phase 1 试点复盘]]
 - 系统主页：[[80 系统/00 知识库主页]]
@@ -83,6 +83,7 @@ Gate A、Phase 1、D1 顶层信息角色、D2 知识对象与导航模型和 D3 
 ```bash
 python scripts/validate_kb.py
 python scripts/check_workflow_registry.py
+python scripts/check_domain_blueprints.py
 python scripts/check_public_assets.py
 python scripts/check_pilot_consistency.py
 python experiments/math_graphics/coordinate_conventions.py
@@ -91,4 +92,4 @@ python experiments/math_graphics/projection_mapping.py
 python experiments/math_graphics/depth_precision.py
 ```
 
-Pull Request 中会自动运行知识库结构、D3 工作流清单、公开附件、Phase 1 一致性和上述实验校验。
+Pull Request 中会自动运行知识库结构、D3 工作流、D4 领域蓝图、公开附件、Phase 1 一致性和上述实验校验。
