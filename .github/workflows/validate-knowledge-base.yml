@@ -27,6 +27,9 @@ jobs:
       - name: Check D3 workflow registry
         run: python scripts/check_workflow_registry.py
 
+      - name: Check D4 domain blueprints
+        run: python scripts/check_domain_blueprints.py
+
       - name: Check public assets
         run: python scripts/check_public_assets.py
 
