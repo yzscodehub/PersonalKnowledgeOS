@@ -1,0 +1,25 @@
+# Obsidian local workspace state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Trash and temporary files
+.trash/
+*.tmp
+*.bak
+
+# Local private content while repository is public
+_private/
+*.private.md
+*.secret.md
+.env
+.env.*
+
+# Local tooling
+__pycache__/
+.venv/

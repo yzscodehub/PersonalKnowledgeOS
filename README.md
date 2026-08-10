@@ -1,1 +1,95 @@
-# Graphics-Systems-Knowledge-Base
+# Personal Knowledge Base
+
+一个基于 Obsidian 与 Git 管理、面向长期成长的个人知识库。
+
+## 目标
+
+本仓库用于把资料、学习、工程实践和内容输出连接成一套可持续运行的知识系统：
+
+```text
+来源 → 理解与提炼 → 正式知识 → 项目与实验 → 输出 → 反向修正知识
+```
+
+## 顶层结构
+
+```text
+00 收件箱        未处理信息的临时入口
+10 项目          有明确成果和结束条件的工作
+20 责任领域      需要长期维护的责任与标准
+30 知识          数学、计算机科学、图形学、AI 等正式知识
+40 来源          书籍、论文、文档、课程、代码仓库等证据
+50 输出          文章、视频脚本、课程、演示文稿等交付物
+60 日记与回顾    时间过程、工作日志和阶段复盘
+80 系统          规则、模板、Manifest、自动化与变更记录
+90 档案          已完成、暂停或退出日常维护的内容
+_assets          图片与附件
+```
+
+编号不要求连续：`70` 是保留扩展位，`80` 和 `90` 是系统与档案的固定语义编号；`experiments`、`scripts` 等工程目录不参与编号。
+
+## 核心原则
+
+1. 数学与图形学是平级知识领域。
+2. 责任领域管理长期责任，知识领域管理学科知识。
+3. 文件夹表达稳定归属，Properties 表达动态状态。
+4. 来源与正式知识分离。
+5. 一个稳定概念只有一个完整基础解释，允许建立领域应用文章。
+6. 项目管理生产过程，输出保存最终成果。
+7. 未开始建设的文章只登记在 Manifest 中，不提前创建空笔记。
+8. 内容成熟度、验证证据和生命周期分别管理。
+
+## 公开仓库模式
+
+当前仓库保持公开，并采用 **public-safe（公开安全）模式**：
+
+- 只提交可公开的技术知识、实验、来源笔记、项目和输出；
+- 不提交健康、财务、身份、私人日记、雇佣机密、凭据或无权公开的附件；
+- 未来需要长期保存私人内容时，在写入前将仓库改为私有；
+- 详细规则见 [[80 系统/10 治理规则/公开仓库与隐私规则]]；
+- 附件和来源文件还需遵守 [[80 系统/10 治理规则/附件、版权与大文件规则]]。
+
+## 当前阶段
+
+Gate A、Phase 1、D1 顶层信息角色、D2 知识对象与导航模型、D3 端到端工作流和 D4 全知识领域蓝图已经通过，但 **PR #1 暂不合并**。当前继续在 `design/knowledge-base-v3` 分支完成 D5～D10，全部完成后再统一评审和合并。
+
+当前允许继续建设：
+
+- Obsidian 首页、仪表盘、模板和查询体验；
+- 自动化、Git、备份、发布、迁移和长期治理设计；
+- 为验证设计所需的最小样例和试点修复。
+
+当前不进入光栅化、PBR、API、UE5 等大规模正文建设，也不进行旧库全量迁移。
+
+- 总体设计：[[80 系统/01 知识库设计说明]]
+- 实施路线：[[80 系统/02 实施路线图]]
+- 完整设计计划：[[80 系统/09 完整设计收敛计划]]
+- D1 顶层信息角色：[[80 系统/11 D1 顶层信息角色详细设计]]
+- D2 知识对象与导航：[[80 系统/12 D2 知识对象与导航模型]]
+- D3 端到端工作流：[[80 系统/13 D3 端到端工作流设计]]
+- D4 全知识领域蓝图：[[80 系统/14 D4 全知识领域蓝图]]
+- 总体评审：[[80 系统/03 总体设计评审记录]]
+- Phase 1 复盘：[[80 系统/04 Phase 1 试点复盘]]
+- 系统主页：[[80 系统/00 知识库主页]]
+
+## 已完成试点
+
+- 数学：点与向量、向量空间、基与坐标、矩阵、仿射空间、标架、齐次坐标；
+- 图形学：坐标空间、Object→World、World→View、正交投影、透视投影、Clip/NDC、深度与 Reversed-Z；
+- 实验：矩阵约定、观察与法线变换、投影端点映射、浮点深度精度；
+- 来源：《Foundations of 3D Computer Graphics》《Real-Time Rendering 4th》。
+
+## 本地校验与实验
+
+```bash
+python scripts/validate_kb.py
+python scripts/check_workflow_registry.py
+python scripts/check_domain_blueprints.py
+python scripts/check_public_assets.py
+python scripts/check_pilot_consistency.py
+python experiments/math_graphics/coordinate_conventions.py
+python experiments/math_graphics/transform_invariants.py
+python experiments/math_graphics/projection_mapping.py
+python experiments/math_graphics/depth_precision.py
+```
+
+Pull Request 中会自动运行知识库结构、D3 工作流、D4 领域蓝图、公开附件、Phase 1 一致性和上述实验校验。

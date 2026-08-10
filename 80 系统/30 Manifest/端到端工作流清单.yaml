@@ -1,0 +1,317 @@
+version: 1.0
+status: accepted
+updated: 2026-08-05
+
+required_fields:
+  - id
+  - title
+  - primary_object
+  - trigger
+  - inputs
+  - states
+  - outputs
+  - exceptions
+  - automation
+  - exit_condition
+  - design_section
+
+workflows:
+  - id: WF-001
+    title: 快速捕捉与正式归属
+    primary_object: inbox-entry
+    trigger: 出现值得暂时保留但无法立即完成归属的信息
+    inputs:
+      - question-or-idea
+      - source-or-action-clue
+      - minimal-context
+    states:
+      - unprocessed
+      - clarify
+      - routed
+      - discarded
+    outputs:
+      - formal-role-object
+      - deletion-decision
+    exceptions:
+      - missing-context
+      - sensitive-content
+      - stale-capture
+    automation:
+      - overdue-inbox-warning
+      - routed-shell-check
+    exit_condition: 条目已进入唯一主归属或明确删除
+    design_section: "D3#WF-001"
+
+  - id: WF-002
+    title: 来源阅读与知识提炼
+    primary_object: source-note
+    trigger: 需要通过来源回答明确问题
+    inputs:
+      - reading-question
+      - source-version-and-location
+      - related-project-or-knowledge-gap
+    states:
+      - unread
+      - reading
+      - processed
+      - reference
+      - abandoned
+    outputs:
+      - located-source-note
+      - canonical-knowledge
+      - unresolved-question
+    exceptions:
+      - unsupported-claim
+      - conflicting-sources
+      - copyright-restriction
+    automation:
+      - source-backlink-check
+      - source-checked-requirement
+    exit_condition: 阅读问题已回答，稳定结论和未解决问题均有去向
+    design_section: "D3#WF-002"
+
+  - id: WF-003
+    title: 学习路线与实验验证
+    primary_object: learning-route-or-learning-project
+    trigger: 为达到明确能力目标而系统学习
+    inputs:
+      - learning-goal
+      - completion-criteria
+      - knowledge-and-experiment-set
+    states:
+      - planned
+      - active
+      - verified
+      - completed
+      - paused
+    outputs:
+      - revised-knowledge
+      - experiment-or-implementation
+      - route-improvement
+    exceptions:
+      - missing-prerequisite
+      - non-reproducible-result
+      - goal-change
+    automation:
+      - route-link-check
+      - experiment-ci
+      - manifest-dependency-check
+    exit_condition: 能力目标达到完成标准且知识和验证可复用
+    design_section: "D3#WF-003"
+
+  - id: WF-004
+    title: 项目问题与知识回流
+    primary_object: project
+    trigger: 项目出现需要多步调研、实验或决策的问题
+    inputs:
+      - project-goal-and-constraints
+      - problem-and-impact
+      - candidate-solutions
+    states:
+      - active
+      - waiting
+      - paused
+      - decided
+    outputs:
+      - project-decision
+      - research-or-experiment
+      - reusable-knowledge
+    exceptions:
+      - insufficient-time
+      - unreliable-environment
+      - project-only-conclusion
+      - confidential-detail
+    automation:
+      - next-action-check
+      - waiting-review-date-check
+      - experiment-ci
+    exit_condition: 项目有可执行决策且通用结论已回流
+    design_section: "D3#WF-004"
+
+  - id: WF-005
+    title: 故障排查与修复验证
+    primary_object: incident-or-troubleshooting-note
+    trigger: 出现异常、崩溃、错误结果或性能退化
+    inputs:
+      - symptom-and-impact
+      - environment-and-version
+      - logs-captures-or-counters
+    states:
+      - observed
+      - reproducing
+      - diagnosing
+      - fixed
+      - verified
+      - mitigated
+      - unresolved
+    outputs:
+      - root-cause-or-boundary
+      - fix-and-regression-result
+      - troubleshooting-knowledge
+    exceptions:
+      - not-reproducible
+      - mitigation-only
+      - sensitive-log
+      - cost-exceeds-impact
+    automation:
+      - regression-test
+      - version-sensitive-review
+      - validation-evidence-check
+    exit_condition: 修复已验证或明确缓解／未解决状态
+    design_section: "D3#WF-005"
+
+  - id: WF-006
+    title: 知识输出与发布回流
+    primary_object: output
+    trigger: 一组知识足以面向明确受众形成交付物
+    inputs:
+      - audience-and-purpose
+      - canonical-knowledge
+      - sources-and-evidence
+      - platform-constraints
+    states:
+      - idea
+      - draft
+      - review
+      - ready
+      - published
+      - retired
+      - cancelled
+    outputs:
+      - maintainable-output
+      - platform-variant
+      - feedback-and-knowledge-revision
+    exceptions:
+      - unstable-knowledge
+      - copyright-risk
+      - factual-error-after-publish
+      - insufficient-value
+    automation:
+      - knowledge-source-link-check
+      - public-safety-check
+      - release-record-check
+    exit_condition: 输出已发布、取消或退役，重要反馈已回流
+    design_section: "D3#WF-006"
+
+  - id: WF-007
+    title: 日记和周期回顾
+    primary_object: journal-or-review
+    trigger: 时间型记录需要提炼行动、风险和稳定结论
+    inputs:
+      - daily-notes
+      - inbox
+      - project-and-area-status
+      - source-knowledge-output-changes
+    states:
+      - open
+      - completed
+    outputs:
+      - updated-projects
+      - updated-responsibility-areas
+      - extracted-knowledge-and-sources
+      - next-week-focus
+    exceptions:
+      - review-overload
+      - missed-review
+      - too-many-active-projects
+      - summary-without-backflow
+    automation:
+      - dashboard-generation
+      - overdue-and-next-action-warning
+      - repository-validation
+    exit_condition: 关键变化已写回正式对象且回顾设为 completed
+    design_section: "D3#WF-007"
+
+  - id: WF-008
+    title: 过时知识与替代
+    primary_object: canonical-knowledge-note
+    trigger: 新来源、版本或证据使现有知识可能失效
+    inputs:
+      - change-trigger
+      - affected-versions
+      - new-evidence
+    states:
+      - active
+      - needs-update
+      - deprecated
+      - archived
+    outputs:
+      - corrected-active-note
+      - replacement-note
+      - migration-guidance
+    exceptions:
+      - insufficient-new-evidence
+      - multiple-replacements
+      - no-replacement
+      - historical-dependency
+    automation:
+      - replacement-metadata-check
+      - stale-version-warning
+      - navigation-deprecated-link-check
+    exit_condition: 原文章恢复有效或完成可追踪替代
+    design_section: "D3#WF-008"
+
+  - id: WF-009
+    title: 项目完成与归档
+    primary_object: project
+    trigger: 项目完成条件满足或项目被取消
+    inputs:
+      - project-home
+      - decisions-and-artifacts
+      - unfinished-items
+      - related-area
+    states:
+      - completed
+      - cancelled
+      - archived
+      - restored
+    outputs:
+      - project-review
+      - canonical-knowledge-and-output
+      - archive-entry
+    exceptions:
+      - completion-criteria-not-met
+      - sensitive-artifacts
+      - unfinished-output
+      - project-reactivation
+    automation:
+      - review-presence-check
+      - archive-path-check
+      - unresolved-item-check
+    exit_condition: 项目退出活跃视图且知识、输出和后续事项有唯一去向
+    design_section: "D3#WF-009"
+
+  - id: WF-010
+    title: 旧内容迁移与回滚
+    primary_object: migration-batch
+    trigger: 旧知识库或历史笔记需要转换到 v3
+    inputs:
+      - read-only-snapshot
+      - inventory-and-links
+      - target-design-and-boundaries
+      - rollback-point
+    states:
+      - planned
+      - inventory
+      - classified
+      - transforming
+      - validating
+      - accepted
+      - rolled-back
+      - paused
+    outputs:
+      - migrated-objects
+      - legacy-id-map
+      - validation-and-rollback-report
+    exceptions:
+      - high-duplicate-rate
+      - unclear-ownership
+      - semantic-change
+      - copyright-or-privacy-risk
+    automation:
+      - inventory-and-duplicate-candidates
+      - legacy-id-check
+      - full-ci
+      - rollback-command-generation
+    exit_condition: 批次通过人工和自动校验并可独立回滚
+    design_section: "D3#WF-010"

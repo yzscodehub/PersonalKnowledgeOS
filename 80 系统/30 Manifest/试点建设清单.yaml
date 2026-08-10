@@ -1,0 +1,239 @@
+schema_version: 1
+pilot: math-graphics-foundations
+status: active
+updated: 2026-08-04
+
+sources:
+  - Steven J. Gortler - Foundations of 3D Computer Graphics
+  - Akenine-Möller 等 - Real-Time Rendering 4th
+
+articles:
+  - id: MATH-LA-001
+    title: 点与向量
+    domain: mathematics
+    module: linear-algebra
+    type: theory
+    status: draft
+    priority: A
+    path: 30 知识/01 数学/11 线性代数/点与向量.md
+
+  - id: MATH-LA-002
+    title: 向量空间
+    domain: mathematics
+    module: linear-algebra
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [MATH-LA-001]
+    path: 30 知识/01 数学/11 线性代数/向量空间.md
+
+  - id: MATH-LA-003
+    title: 基与坐标
+    domain: mathematics
+    module: linear-algebra
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [MATH-LA-001, MATH-LA-002]
+    path: 30 知识/01 数学/11 线性代数/基与坐标.md
+
+  - id: MATH-LA-004
+    title: 矩阵作为线性映射
+    domain: mathematics
+    module: linear-algebra
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [MATH-LA-002, MATH-LA-003]
+    path: 30 知识/01 数学/11 线性代数/矩阵作为线性映射.md
+
+  - id: MATH-GEO-001
+    title: 仿射空间与仿射组合
+    domain: mathematics
+    module: affine-geometry
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [MATH-LA-001, MATH-LA-002]
+    path: 30 知识/01 数学/12 解析、仿射与射影几何/仿射空间与仿射组合.md
+
+  - id: MATH-GEO-002
+    title: 标架与坐标系
+    domain: mathematics
+    module: affine-geometry
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [MATH-LA-001, MATH-LA-003, MATH-GEO-001]
+    path: 30 知识/01 数学/12 解析、仿射与射影几何/标架与坐标系.md
+
+  - id: MATH-GEO-003
+    title: 齐次坐标
+    domain: mathematics
+    module: projective-geometry
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [MATH-LA-004, MATH-GEO-001, MATH-GEO-002]
+    path: 30 知识/01 数学/12 解析、仿射与射影几何/齐次坐标.md
+
+  - id: MATH-ROT-001
+    title: 旋转矩阵
+    domain: mathematics
+    module: rotation
+    type: theory
+    status: planned
+    priority: A
+
+  - id: MATH-ROT-002
+    title: 四元数与旋转
+    domain: mathematics
+    module: rotation
+    type: theory
+    status: planned
+    priority: A
+    prerequisites: [MATH-ROT-001]
+
+  - id: GFX-SPACE-001
+    title: 图形学坐标空间总览
+    domain: graphics
+    module: conventions
+    type: concept
+    status: draft
+    priority: A
+    prerequisites: [MATH-LA-003, MATH-GEO-002]
+    path: 30 知识/04 图形学与渲染/10 图形学基础与约定/图形学坐标空间总览.md
+
+  - id: GFX-TRANSFORM-001
+    title: Object 到 World 变换
+    domain: graphics
+    module: camera-projection
+    type: implementation
+    status: draft
+    priority: A
+    prerequisites: [GFX-SPACE-001, MATH-LA-004, MATH-GEO-001]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/Object 到 World 变换.md
+
+  - id: GFX-TRANSFORM-002
+    title: World 到 View 变换
+    domain: graphics
+    module: camera-projection
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [GFX-SPACE-001, MATH-GEO-002, GFX-TRANSFORM-001]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/World 到 View 变换.md
+
+  - id: GFX-PROJ-001
+    title: 正交投影
+    domain: graphics
+    module: camera-projection
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [GFX-TRANSFORM-002, MATH-GEO-003]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/正交投影.md
+
+  - id: GFX-PROJ-002
+    title: 透视投影
+    domain: graphics
+    module: camera-projection
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [GFX-TRANSFORM-002, MATH-GEO-003]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/透视投影.md
+
+  - id: GFX-PROJ-003
+    title: Clip Space、透视除法与 NDC
+    domain: graphics
+    module: camera-projection
+    type: system
+    status: draft
+    priority: A
+    prerequisites: [GFX-PROJ-001, GFX-PROJ-002]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/Clip Space、透视除法与 NDC.md
+
+  - id: GFX-DEPTH-001
+    title: 深度缓冲、精度与 Reversed-Z
+    domain: graphics
+    module: visibility
+    type: theory
+    status: draft
+    priority: A
+    prerequisites: [GFX-PROJ-003]
+    path: 30 知识/04 图形学与渲染/12 相机、投影与可见性/深度缓冲、精度与 Reversed-Z.md
+
+  - id: GFX-PIPE-001
+    title: CPU 到 GPU 帧流程
+    domain: graphics
+    module: raster-pipeline
+    type: system
+    status: planned
+    priority: A
+    prerequisites: [GFX-SPACE-001]
+
+  - id: GFX-PIPE-002
+    title: 顶点处理与图元装配
+    domain: graphics
+    module: raster-pipeline
+    type: system
+    status: planned
+    priority: A
+    prerequisites: [GFX-PIPE-001, GFX-PROJ-003]
+
+  - id: GFX-PIPE-003
+    title: 光栅化与覆盖规则
+    domain: graphics
+    module: raster-pipeline
+    type: algorithm
+    status: planned
+    priority: A
+    prerequisites: [GFX-PIPE-002]
+
+  - id: GFX-PIPE-004
+    title: 透视正确插值
+    domain: graphics
+    module: raster-pipeline
+    type: theory
+    status: planned
+    priority: A
+    prerequisites: [GFX-PIPE-003, GFX-PROJ-003]
+
+experiments:
+  - id: GFX-EXP-SPACE-001
+    title: 矩阵乘法与坐标约定实验
+    status: stable
+    verification:
+      - source-checked
+      - experiment-reproduced
+    article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/矩阵乘法与坐标约定实验.md
+    code_path: experiments/math_graphics/coordinate_conventions.py
+
+  - id: GFX-EXP-PROJ-001
+    title: 投影矩阵与 NDC 映射实验
+    status: stable
+    verification:
+      - source-checked
+      - experiment-reproduced
+    article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/投影矩阵与 NDC 映射实验.md
+    code_path: experiments/math_graphics/projection_mapping.py
+
+  - id: GFX-EXP-DEPTH-001
+    title: 深度精度与 Reversed-Z 实验
+    status: stable
+    verification:
+      - source-checked
+      - experiment-reproduced
+    article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/深度精度与 Reversed-Z 实验.md
+    code_path: experiments/math_graphics/depth_precision.py
+
+
+  - id: GFX-EXP-TRANSFORM-001
+    title: 观察与法线变换不变量实验
+    status: stable
+    verification:
+      - source-checked
+      - experiment-reproduced
+    article_path: 30 知识/04 图形学与渲染/80 图形学实验与实现/观察与法线变换不变量实验.md
+    code_path: experiments/math_graphics/transform_invariants.py

@@ -1,0 +1,307 @@
+version: 1
+status: accepted
+
+domains:
+  - id: "01"
+    slug: mathematics
+    title: 数学
+    blueprint_path: 80 系统/50 领域蓝图/01 数学领域蓝图.md
+    wave: A
+    modules:
+      - MATH-FND
+      - MATH-LA
+      - MATH-GEO
+      - MATH-POSE
+      - MATH-CALC
+      - MATH-DE
+      - MATH-PROB
+      - MATH-STOCH
+      - MATH-NUM
+      - MATH-OPT
+      - MATH-DISC
+      - MATH-SIGNAL
+      - MATH-DGEO
+
+  - id: "02"
+    slug: physics-engineering
+    title: 物理与工程科学
+    blueprint_path: 80 系统/50 领域蓝图/02 物理与工程科学领域蓝图.md
+    wave: C
+    modules:
+      - PHYS-MECH
+      - PHYS-CONT
+      - PHYS-THERM
+      - PHYS-EM
+      - PHYS-OPT
+      - PHYS-ACOU
+      - PHYS-CTRL
+      - PHYS-MEAS
+      - PHYS-SYS
+      - PHYS-MAT
+
+  - id: "03"
+    slug: computer-science
+    title: 计算机科学
+    blueprint_path: 80 系统/50 领域蓝图/03 计算机科学领域蓝图.md
+    wave: A
+    modules:
+      - CS-FND
+      - CS-ALG
+      - CS-COMP
+      - CS-ARCH
+      - CS-OS
+      - CS-NET
+      - CS-PL
+      - CS-DB
+      - CS-DIST
+      - CS-PAR
+      - CS-SEC
+      - CS-GEO
+      - CS-HCI
+
+  - id: "04"
+    slug: graphics
+    title: 图形学与渲染
+    blueprint_path: 80 系统/50 领域蓝图/04 图形学与渲染领域蓝图.md
+    wave: A
+    modules:
+      - GFX-FND
+      - GFX-GEO
+      - GFX-PROJ
+      - GFX-RAST
+      - GFX-TEX
+      - GFX-MAT
+      - GFX-VIS
+      - GFX-PATH
+      - GFX-AA
+      - GFX-POST
+      - GFX-GI
+      - GFX-VOL
+      - GFX-ANIM
+      - GFX-GPU
+      - GFX-API
+      - GFX-ARCH
+      - GFX-DRIVEN
+      - GFX-PERF
+      - GFX-RT
+      - GFX-NEURAL
+
+  - id: "05"
+    slug: artificial-intelligence
+    title: 人工智能与数据科学
+    blueprint_path: 80 系统/50 领域蓝图/05 人工智能与数据科学领域蓝图.md
+    wave: B
+    modules:
+      - AI-FND
+      - AI-ML
+      - AI-DL
+      - AI-CV
+      - AI-NLP
+      - AI-LLM
+      - AI-GEN
+      - AI-RAG
+      - AI-AGENT
+      - AI-MM
+      - AI-DATA
+      - AI-EVAL
+      - AI-INFER
+      - AI-SAFE
+
+  - id: "06"
+    slug: software-engineering
+    title: 软件工程
+    blueprint_path: 80 系统/50 领域蓝图/06 软件工程领域蓝图.md
+    wave: A
+    modules:
+      - SE-REQ
+      - SE-DESIGN
+      - SE-ARCH
+      - SE-CODE
+      - SE-API
+      - SE-TEST
+      - SE-BUILD
+      - SE-VCS
+      - SE-QUALITY
+      - SE-PERF
+      - SE-REL
+      - SE-OBS
+      - SE-SEC
+      - SE-DELIVERY
+
+  - id: "07"
+    slug: systems-platforms
+    title: 系统与平台
+    blueprint_path: 80 系统/50 领域蓝图/07 系统与平台领域蓝图.md
+    wave: A
+    modules:
+      - SYS-WIN
+      - SYS-LINUX
+      - SYS-MAC
+      - SYS-WSL
+      - SYS-VIRT
+      - SYS-CPU
+      - SYS-GPU
+      - SYS-STOR
+      - SYS-NET
+      - SYS-TOOL
+      - SYS-DEPLOY
+      - SYS-HW
+      - SYS-REC
+
+  - id: "08"
+    slug: game-engine
+    title: 游戏引擎与实时应用
+    blueprint_path: 80 系统/50 领域蓝图/08 游戏引擎与实时应用领域蓝图.md
+    wave: A
+    modules:
+      - ENG-FND
+      - ENG-ECS
+      - ENG-SCENE
+      - ENG-RENDER
+      - ENG-ASSET
+      - ENG-ANIM
+      - ENG-PHYS
+      - ENG-UI
+      - ENG-SCRIPT
+      - ENG-EDITOR
+      - ENG-NET
+      - ENG-TASK
+      - ENG-PLUGIN
+      - ENG-BUILD
+      - ENG-UE
+      - ENG-UNITY
+      - ENG-QT
+      - ENG-WEB
+
+  - id: "09"
+    slug: multimedia
+    title: 音视频与多媒体
+    blueprint_path: 80 系统/50 领域蓝图/09 音视频与多媒体领域蓝图.md
+    wave: A
+    modules:
+      - MEDIA-FND
+      - MEDIA-AUDIO
+      - MEDIA-VIDEO
+      - MEDIA-CODEC
+      - MEDIA-CONT
+      - MEDIA-TIME
+      - MEDIA-FILTER
+      - MEDIA-PLAY
+      - MEDIA-CAP
+      - MEDIA-STREAM
+      - MEDIA-WEBRTC
+      - MEDIA-HW
+      - MEDIA-GPU
+      - MEDIA-QUAL
+
+  - id: "10"
+    slug: embedded-robotics-autonomous-driving
+    title: 嵌入式、机器人与智能驾驶
+    blueprint_path: 80 系统/50 领域蓝图/10 嵌入式、机器人与智能驾驶领域蓝图.md
+    wave: A
+    modules:
+      - ROBO-EMB
+      - ROBO-SOC
+      - ROBO-RTOS
+      - ROBO-BUS
+      - ROBO-SENSOR
+      - ROBO-EST
+      - ROBO-ROS
+      - ROBO-FRAME
+      - ROBO-LOC
+      - ROBO-MAP
+      - ROBO-PER
+      - ROBO-PRED
+      - ROBO-PLAN
+      - ROBO-CTRL
+      - ROBO-AD
+      - ROBO-VIZ
+      - ROBO-DEPLOY
+      - ROBO-SAFE
+
+  - id: "11"
+    slug: design-content
+    title: 设计、摄影与内容创作
+    blueprint_path: 80 系统/50 领域蓝图/11 设计、摄影与内容创作领域蓝图.md
+    wave: B
+    modules:
+      - DESIGN-FND
+      - DESIGN-LAYOUT
+      - DESIGN-TYPE
+      - DESIGN-COLOR
+      - DESIGN-UI
+      - PHOTO-FND
+      - PHOTO-LIGHT
+      - PHOTO-POST
+      - VIDEO-EDIT
+      - VIDEO-MOTION
+      - CONTENT-STORY
+      - CONTENT-PLAT
+      - CONTENT-AIGC
+      - CONTENT-ASSET
+      - CONTENT-CRIT
+
+  - id: "12"
+    slug: product-business-career
+    title: 产品、商业与职业发展
+    blueprint_path: 80 系统/50 领域蓝图/12 产品、商业与职业发展领域蓝图.md
+    wave: B
+    modules:
+      - PROD-DISC
+      - PROD-STRAT
+      - PROD-REQ
+      - PROD-ROAD
+      - PROD-METRIC
+      - PROD-UXR
+      - BIZ-MODEL
+      - BIZ-MARKET
+      - BIZ-GROWTH
+      - BIZ-PRICE
+      - BIZ-START
+      - CAREER-MAP
+      - CAREER-JOB
+      - CAREER-COMM
+      - CAREER-BRAND
+      - CAREER-REVIEW
+
+  - id: "13"
+    slug: humanities-social-sciences
+    title: 人文与社会科学
+    blueprint_path: 80 系统/50 领域蓝图/13 人文与社会科学领域蓝图.md
+    wave: C
+    modules:
+      - HUM-PHIL
+      - HUM-ETH
+      - HUM-HIST
+      - HUM-ECON
+      - HUM-PSY
+      - HUM-SOC
+      - HUM-POL
+      - HUM-LAW
+      - HUM-COMM
+      - HUM-EDU
+      - HUM-ANTH
+      - HUM-LANG
+      - HUM-ORG
+      - HUM-METHOD
+
+  - id: "99"
+    slug: cross-domain
+    title: 跨领域知识地图
+    blueprint_path: 80 系统/50 领域蓝图/99 跨领域知识地图蓝图.md
+    wave: cross
+    modules:
+      - XMAP-MATH-APP
+      - XMAP-RENDERER
+      - XMAP-GPU
+      - XMAP-ENGINE
+      - XMAP-AUTOVIZ
+      - XMAP-MEDIA-GPU
+      - XMAP-AI-KB
+      - XMAP-NEURAL-GFX
+      - XMAP-ROBO-FRAME
+      - XMAP-CPP-REALTIME
+      - XMAP-CONTENT
+      - XMAP-CAREER
+      - XMAP-PERF
+      - XMAP-RELIABILITY
